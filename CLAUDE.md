@@ -25,6 +25,10 @@ node check-db.js     # Check database contents and character stats
 node test-sqlite.js  # Test SQLite database operations
 node test-bot-battle.js  # Test bot battle functionality
 node setup-admin.js  # Setup admin accounts
+
+# Health Monitoring
+node test-health-endpoint.js  # Test health check endpoint
+node monitor-health.js        # Continuous health monitoring
 ```
 
 ## Architecture Overview
@@ -42,10 +46,12 @@ node setup-admin.js  # Setup admin accounts
 ### API Structure (Next.js 13 App Router)
 All APIs in `/app/api/`:
 - **Auth**: `/auth/login`, `/auth/verify` - 30-day token authentication
+- **Profile**: `/profile` - User profile CRUD (GET/PATCH/DELETE)
 - **Characters**: `/characters` - CRUD with animal property formatting
 - **Battles**: `/battles` - Battle creation with bot detection for unlimited battles
 - **Admin**: `/admin/login` - Admin authentication endpoint
 - **Leaderboard**: `/leaderboard` - Rankings with bot indicators
+- **Health**: `/health` - System health monitoring for deployment (database, memory, features)
 
 ### Content Safety System (`/lib/filters/content-filter.ts`)
 - Korean/English profanity filtering

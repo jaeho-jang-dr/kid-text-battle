@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function HomePage() {
   const [currentView, setCurrentView] = useState<'main' | 'email' | 'guest'>('main');
@@ -343,27 +344,27 @@ export default function HomePage() {
           <div className="bg-white rounded-xl shadow-md border border-gray-100 p-6">
             <h3 className="text-lg font-bold text-gray-800 mb-4 text-center">🔗 빠른 링크</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              <a
+              <Link
                 href="/animals"
                 className="flex flex-col items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-center"
               >
                 <span className="text-2xl mb-1">🐻</span>
                 <span className="text-sm font-medium text-gray-700">동물 도감</span>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/leaderboard"
                 className="flex flex-col items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-center"
               >
                 <span className="text-2xl mb-1">🏆</span>
                 <span className="text-sm font-medium text-gray-700">순위표</span>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/text-guide"
                 className="flex flex-col items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-center"
               >
                 <span className="text-2xl mb-1">✍️</span>
                 <span className="text-sm font-medium text-gray-700">작성 가이드</span>
-              </a>
+              </Link>
             </div>
           </div>
 
