@@ -1,122 +1,132 @@
-# 배포 가이드 - Kid Text Battle
+# Kid Text Battle 배포 가이드
 
-## 🚀 배포 옵션
+## 🚀 Replit 배포 (권장)
 
-### 1. Railway (추천) - PostgreSQL 지원
-Railway는 무료 플랜으로 시작 가능하며 PostgreSQL을 자동으로 제공합니다.
+### 1. Replit에서 프로젝트 가져오기
+1. [Replit](https://replit.com)에 로그인
+2. "Create Repl" 클릭
+3. "Import from GitHub" 선택
+4. 이 저장소 URL 입력
 
-#### 배포 단계:
-1. [Railway](https://railway.app) 계정 생성
-2. GitHub 연결 및 프로젝트 Import
-3. 자동으로 PostgreSQL 데이터베이스 생성
-4. 환경 변수 자동 설정
-5. 배포 완료!
+### 2. 환경 설정
+Replit Secrets에 다음 추가 (선택사항):
+- `OPENAI_API_KEY`: OpenAI API 키 (AI 배틀 판정용)
 
-#### Railway CLI 사용 (선택사항):
+### 3. 실행
 ```bash
-# Railway CLI 설치
-npm install -g @railway/cli
-
-# 로그인
-railway login
-
-# 프로젝트 연결
-railway link
-
-# 배포
-railway up
+npm run replit
 ```
 
-### 2. Render - 무료 PostgreSQL 포함
-Render는 무료 웹 서비스와 무료 PostgreSQL을 제공합니다.
+### 4. 접속 정보
+- 메인 페이지: `https://[your-repl-name].repl.co`
+- 관리자 페이지: `https://[your-repl-name].repl.co/admin`
+- 관리자 로그인: `admin` / `1234`
 
-#### 배포 단계:
-1. [Render](https://render.com) 계정 생성
+## 🎯 Render 배포 (대안)
+
+### 1. Render에서 Web Service 생성
+1. [Render](https://render.com) 로그인
 2. "New +" → "Web Service" 클릭
 3. GitHub 저장소 연결
-4. 서비스 설정:
-   - Name: `kid-text-battle`
-   - Region: `Singapore`
-   - Branch: `main`
-   - Runtime: `Node`
-   - Build Command: `npm install && npm run build`
-   - Start Command: `npm run start`
-5. 환경 변수 추가:
-   - `NODE_ENV`: `production`
-   - `PORT`: `3008`
-6. PostgreSQL 데이터베이스 생성 (자동 연결)
-7. 배포!
 
-### 3. Vercel + Supabase (무료)
-Vercel은 프론트엔드 호스팅, Supabase는 PostgreSQL 데이터베이스를 제공합니다.
+### 2. 설정
+- **Build Command**: `npm run build`
+- **Start Command**: `npm run start`
+- **Environment**: Node
 
-#### 배포 단계:
-1. [Supabase](https://supabase.com) 프로젝트 생성
-2. Database URL 복사
-3. [Vercel](https://vercel.com) 계정 생성
-4. GitHub Import
-5. 환경 변수 설정:
-   - `DATABASE_URL`: Supabase에서 복사한 URL
-   - `NODE_ENV`: `production`
-6. 배포!
+### 3. 환경 변수 추가
+- `NODE_ENV`: production
+- `USE_SQLITE`: true
+- `DATABASE_PATH`: /var/data/kid-text-battle.db
+- `JWT_SECRET`: [임의의 시크릿 키]
+- `OPENAI_API_KEY`: [OpenAI API 키] (선택사항)
 
-## 📊 데이터베이스 마이그레이션
+### 4. Persistent Disk 추가
+- Mount Path: `/var/data`
+- Size: 1GB (무료)
 
-PostgreSQL로 전환 시:
+## 📱 로컬 개발
+
+### 1. 프로젝트 클론
 ```bash
-# 1. 환경 변수 설정
-export DATABASE_URL="postgresql://..."
+git clone [repository-url]
+cd kid-text-battle
+```
 
-# 2. 마이그레이션 실행
-npm run db:migrate
+### 2. 의존성 설치
+```bash
+npm install
+```
 
-# 3. 관리자 계정 생성
+### 3. 환경 변수 설정
+`.env.local` 파일 생성:
+```env
+NODE_ENV=development
+USE_SQLITE=true
+DATABASE_PATH=kid-text-battle.db
+JWT_SECRET=your-secret-key
+OPENAI_API_KEY=your-openai-key (선택사항)
+```
+
+### 4. 데이터베이스 초기화
+```bash
+npm run setup:db
+```
+
+### 5. 개발 서버 실행
+```bash
+npm run dev
+```
+
+## 🔧 문제 해결
+
+### Replit 빌드 오류
+```bash
+# 캐시 정리 후 재빌드
+rm -rf .next node_modules/.cache
+npm run build:force
+```
+
+### 데이터베이스 초기화 실패
+```bash
+# 수동으로 초기화
+node add-all-animals.js
 node setup-admin.js
 ```
 
-## 🔧 환경 변수 설정
-
-모든 플랫폼에서 필요한 환경 변수:
-```
-DATABASE_URL=postgresql://user:password@host:port/database
-NODE_ENV=production
-PORT=3008 (선택사항, 대부분 플랫폼에서 자동 설정)
-```
-
-## 🚨 주의사항
-
-1. **SQLite 제한사항**: Vercel, Netlify 같은 서버리스 플랫폼에서는 SQLite 사용 불가
-2. **무료 플랜 제한**: 
-   - Railway: 월 500시간 (약 20일)
-   - Render: 15분 비활성 시 슬립
-   - Supabase: 500MB 저장소
-3. **지역 선택**: 한국 사용자를 위해 싱가포르 리전 선택 권장
-
-## 📱 배포 후 확인사항
-
-1. 홈페이지 접속 확인
-2. 관리자 로그인 테스트 (유니콘 아이콘)
-3. 캐릭터 생성 및 배틀 테스트
-4. 데이터 영속성 확인
-
-## 🆘 문제 해결
-
-### PostgreSQL 연결 오류
-```bash
-# SSL 연결이 필요한 경우
-DATABASE_URL="postgresql://...?sslmode=require"
-```
-
-### 빌드 메모리 부족
-```bash
-# package.json에 추가
-"build": "NODE_OPTIONS='--max-old-space-size=512' next build"
-```
-
 ### 포트 충돌
-대부분의 플랫폼은 PORT 환경 변수를 자동 설정합니다. 
-코드에서 `process.env.PORT || 3008` 사용 확인.
+환경 변수에서 `PORT` 변경:
+```env
+PORT=3001
+```
 
-## 🎉 배포 완료!
+## 📊 모니터링
 
-배포가 완료되면 제공된 URL로 접속하여 게임을 즐기세요!
+### 데이터베이스 상태 확인
+```bash
+node check-db.js
+```
+
+### API 테스트
+```bash
+node test-api.js
+```
+
+## 🔒 보안 권장사항
+
+1. **프로덕션 환경에서는 반드시 변경하세요:**
+   - 관리자 비밀번호
+   - JWT Secret
+   - 데이터베이스 경로
+
+2. **HTTPS 사용**
+   - Replit과 Render는 자동으로 HTTPS 제공
+
+3. **정기 백업**
+   - SQLite 데이터베이스 파일 백업
+
+## 📞 지원
+
+문제가 있으신가요?
+- GitHub Issues에 문의
+- 관리자 페이지에서 로그 확인

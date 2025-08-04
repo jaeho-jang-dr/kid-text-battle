@@ -2,26 +2,22 @@ services:
   - type: web
     name: kid-text-battle
     runtime: node
-    region: singapore
-    plan: free
     buildCommand: npm install && npm run build
     startCommand: npm run start
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 3008
       - key: USE_SQLITE
-        value: "true"
+        value: true
       - key: DATABASE_PATH
         value: /var/data/kid-text-battle.db
       - key: JWT_SECRET
-        value: z3QQprKHHAVLV/WsosXSmViMnkTJTUpxFAS/Xh5az70=
-      - key: NEXT_PUBLIC_SUPABASE_URL
-        value: https://uolhwhuhuiqjyhlwqsjm.supabase.co
-      - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
-        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVvbGh3aHVodWlxanlobHdxc2ptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQzMTI1MjMsImV4cCI6MjA2OTg4ODUyM30.1EnagPSnyDA_DxM5UKlhaX7FWhHT1fzPoGzQk4maaZQ
-      - key: SUPABASE_SERVICE_ROLE_KEY
-        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVvbGh3aHVodWlxanlobHdxc2ptIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NDMxMjUyMywiZXhwIjoyMDY5ODg4NTIzfQ.opAjKDYfeKHfoMNb0zew3YXWiZeBgw93rMt7ZFu7pok
+        generateValue: true
       - key: ADMIN_DEFAULT_PASSWORD
         value: "1234"
+      - key: PORT
+        value: 3000
+    disk:
+      name: kid-text-battle-data
+      mountPath: /var/data
+      sizeGB: 1
