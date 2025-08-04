@@ -13,8 +13,8 @@ ignorePorts = false
 buildCommand = "./replit-build.sh"
 
 [[ports]]
-localPort = 3008
-externalPort = 3008
+localPort = 3000
+externalPort = 3000
 
 [nix]
 channel = "stable-23_11"
@@ -22,7 +22,7 @@ channel = "stable-23_11"
 [env]
 NODE_ENV = "production"
 DATABASE_URL = "file:./kid-text-battle.db"
-PORT = "3008"
+PORT = "3000"
 
 [packager]
 language = "nodejs"
