@@ -1,4 +1,4 @@
-run = "npm run replit"
+run = "node replit-run.js"
 modules = ["nodejs-20:v8-20240808-44c19a9"]
 hidden = [".config", "package-lock.json", ".next", ".git"]
 
