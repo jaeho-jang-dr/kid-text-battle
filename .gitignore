@@ -54,3 +54,6 @@ add-*.js
 .cache
 .config
 .upm
+
+# Local Netlify folder
+.netlify
