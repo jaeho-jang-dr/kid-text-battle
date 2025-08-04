@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 
@@ -25,7 +25,7 @@ interface Character {
   animal: Animal;
 }
 
-export default function CreateCharacterPage() {
+function CreateCharacterContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const animalId = searchParams.get('animal');
@@ -365,5 +365,13 @@ export default function CreateCharacterPage() {
         )}
       </div>
     </main>
+  );
+}
+
+export default function CreateCharacterPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">로딩 중...</div>}>
+      <CreateCharacterContent />
+    </Suspense>
   );
 }

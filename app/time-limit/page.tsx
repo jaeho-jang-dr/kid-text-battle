@@ -127,11 +127,11 @@ export default function TimeLimitPage() {
             key={i}
             className="absolute text-2xl"
             initial={{
-              x: Math.random() * window.innerWidth,
+              x: typeof window !== 'undefined' ? Math.random() * window.innerWidth : Math.random() * 1000,
               y: -50,
             }}
             animate={{
-              y: window.innerHeight + 50,
+              y: typeof window !== 'undefined' ? window.innerHeight + 50 : 800,
             }}
             transition={{
               duration: Math.random() * 10 + 10,
